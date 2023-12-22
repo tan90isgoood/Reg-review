@@ -34,3 +34,28 @@ pairs(MShare~.,data=Train)
 
 M1=lm(MShare~.,data=Train)  #建構初步模型
 summary(M1)
+
+##Phase IV(看四個假設):
+library(car)
+library(lmtest)
+library(nortest)
+library(randtests)
+###Function Form and Homogeneity
+#e=residuals(M1)
+es=rstandard(M1)
+residualPlot(M1,type="rstandard",quadratic=F)
+
+resettest(M1,power=2,type='regressor')
+ncvTest(M1)#This test is often called the Breusch-Pagan test; 
+
+#Normality
+qqPlot(M1)
+lillie.test(es)#KS test for normality
+shapiro.test(es)#Shapiro-Wilk Normality Test
+
+plot(es,type = "l",col='2')
+acf(es, ci=0.99)
+#dwtest(M1)#Durbin-Watson test
+runs.test(es)
+
+#四個假設都過關
