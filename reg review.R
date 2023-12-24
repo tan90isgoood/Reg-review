@@ -79,6 +79,7 @@ vif(M1)
 vif(M2a)
 vif(M2b)
 
+
 #有效性
 M1p=predict(M1, newdata=Test)
 r1=M1p-Test$MShare
