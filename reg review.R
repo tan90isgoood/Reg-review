@@ -125,3 +125,15 @@ identify(1:n,cooks.distance(M2a), row.names(Market))
 dfbetasPlots(M2a,id.n=2)
 
 #無outlier xand outlier y
+
+
+#Phase VI:
+summary(M2a)
+confint(M2a)
+#the meaning of coefficients(在其他變數不變的情況下...)
+#R2=0.78
+#MAE=103,MAPE.....
+
+
+#contrasts(AU)
+#type <- relevel(type,ref="prof")
