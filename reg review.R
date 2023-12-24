@@ -104,3 +104,24 @@ MAPE2b=mean(abs(r2b/Test$MShare))
 
 #according to our validation reslut
 #our final model is m2a
+
+#outlier y
+influenceIndexPlot(M2a,id=list(n=3))
+
+
+#outlier x  看leverage value (hat matix)
+influencePlot(M2a,id=list(n=1))
+p=length(M2a$coef)
+n=nrow(Market)
+limit1 = (2*p)/n #limit1 for Hat-Values of Bubble plot
+limit2 = (3*p)/n #limit2 for Hat-Values of Bubble plot
+
+#Check influential case using cook's distance
+plot(cooks.distance(M2a))
+abline(h=4/(n-p), lty=2)
+identify(1:n,cooks.distance(M2a), row.names(Market))
+
+#Check influential case using dfbetas
+dfbetasPlots(M2a,id.n=2)
+
+#無outlier xand outlier y
