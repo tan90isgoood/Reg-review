@@ -59,3 +59,47 @@ acf(es, ci=0.99)
 runs.test(es)
 
 #四個假設都過關
+
+#Phase V(簡化模型 因為四個假設都過關 所以不需要修改):
+s1=step(M1)
+s2=step(M1,k=log(nrow(Train)))
+
+
+M2a=lm(MShare~Price+PProm+DiscP,data=Train)
+summary(M2a)
+#Fine tuning using t-test
+M2b=lm(MShare~Price+DiscP,data=Train) #因為PProm不太顯著 因此微調
+summary(M2b)
+
+
+#M1 or M2a can be our final model
+
+#Outliers might existed
+vif(M1)
+vif(M2a)
+vif(M2b)
+
+#有效性
+M1p=predict(M1, newdata=Test)
+r1=M1p-Test$MShare
+MSE1=mean(r1^2)
+RMSE1 = sqrt(MSE1)
+MAE1 = mean(abs(r1))
+MAPE1=mean(abs(r1/Test$MShare))
+
+M2ap=predict(M2a, newdata=Test)
+r2a=M2ap-Test$MShare
+MSE2a=mean(r2a^2)
+RMSE2a = sqrt(MSE2a)
+MAE2a = mean(abs(r2a))
+MAPE2a=mean(abs(r2a/Test$MShare))
+
+M2bp=predict(M2b, newdata=Test)
+r2b=M2bp-Test$MShare
+MSE2b=mean(r2b^2)
+RMSE2b = sqrt(MSE2b)
+MAE2b = mean(abs(r2b))
+MAPE2b=mean(abs(r2b/Test$MShare))
+
+#according to our validation reslut
+#our final model is m2a
