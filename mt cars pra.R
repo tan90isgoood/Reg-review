@@ -56,3 +56,18 @@ summary(m1a)
 
 vif(m1)
 vif(m1a)
+
+#validation
+M1p=predict(m1, newdata=Test)
+r1=M1p-Test$mpg
+MSE1=mean(r1^2)
+RMSE1 = sqrt(MSE1)
+MAE1 = mean(abs(r1))
+MAPE1=mean(abs(r1/Test$mpg))
+
+M2p=predict(m1a, newdata=Test)
+r2=M2p-Test$mpg
+MSE2=mean(r2^2)
+RMSE2 = sqrt(MSE2)
+MAE2 = mean(abs(r2))
+MAPE2=mean(abs(r2/Test$mpg))
