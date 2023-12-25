@@ -97,15 +97,29 @@ identify(1:n,cooks.distance(m1a), row.names(mtcars))
 #Check influential case using dfbetas
 dfbetasPlots(m1a,id.n=2)
 
+###刪除Fiat 128 因為p value小於0.05
 mtcars[rownames(mtcars)=='Fiat 128',]
 
 newd <- mtcars[!rownames(mtcars)%in%c('Fiat 128'),]
-m1c <- lm(mpg~cyl+wt,data=newd)
-summary(m1c)
+m1b <- lm(mpg~cyl+wt,data=newd)
+summary(m1b)
 
+#outlier y
 influenceIndexPlot(m1c,id=list(n=2))
-n=nrow(newd)
-plot(cooks.distance(m1c))
+outlierTest(m1b)
+#Toyota Corolla   p value=0.0472 < 0.05
+
+#outlier x
+influencePlot(m1b,id=list(n=1))
+p=length(m1b$coef)
+n=nrow(mtcars)
+limit1 = (2*p)/n #limit1 for Hat-Values of Bubble plot
+limit2 = (3*p)/n #limit2 for Hat-Values of Bubble plot
+
+#Check influential case using cook's distance
+plot(cooks.distance(m1b))
 abline(h=4/(n-p), lty=2)
-identify(1:n,cooks.distance(m1c), row.names(newd))
-dfbetasPlots(m1c,id.n=2)
+identify(1:n,cooks.distance(m1b), row.names(mtcars))
+
+#Check influential case using dfbetas
+dfbetasPlots(m1b,id.n=2)
