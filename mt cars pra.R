@@ -18,15 +18,14 @@ View(mtcars)
 mtcars$am <- as.factor(mtcars$am)
 mtcars$vs <- as.factor(mtcars$vs)
 pairs(mtcars)
-m1 <- lm(mpg~.,data=mtcars)
-summary(m1)
 
 N <- nrow(mtcars)
 set.seed(234)
 ind <- sample(N,round(0.8*N))
 Train <- mtcars[ind,]
 Test <- mtcars[-ind,]
-
+m1 <- lm(mpg~.,data=Train)
+summary(m1)
 ##Phase IV(看四個假設):
 library(car)
 library(lmtest)
@@ -48,3 +47,9 @@ lillie.test(es)#KS test for normality
 shapiro.test(es)
 #都沒問題
 
+###phase V: (簡化模型 因為四個假設都過關 所以不需要修改)
+s1=step(m1)
+s2=step(m1,k=log(nrow(Train))) #BIC
+
+m1a <- lm(mpg~cyl+wt,data=Train)
+summary(m1a)
