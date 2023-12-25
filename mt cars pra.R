@@ -71,3 +71,41 @@ MSE2=mean(r2^2)
 RMSE2 = sqrt(MSE2)
 MAE2 = mean(abs(r2))
 MAPE2=mean(abs(r2/Test$mpg))
+
+#m1a...
+
+
+###outliers
+
+#outlier y
+influenceIndexPlot(m1a,id=list(n=3))
+
+outlierTest(m1a) #reject Ho ,Fiat 128 is a outlier y
+#outlier x  看leverage value (hat matix)
+influencePlot(m1a,id=list(n=1))
+p=length(m1a$coef)
+n=nrow(mtcars)
+limit1 = (2*p)/n #limit1 for Hat-Values of Bubble plot
+limit2 = (3*p)/n #limit2 for Hat-Values of Bubble plot
+#Lincoin Continenta為可疑的outlier x
+
+#Check influential case using cook's distance
+plot(cooks.distance(m1a))
+abline(h=4/(n-p), lty=2)
+identify(1:n,cooks.distance(m1a), row.names(mtcars))
+
+#Check influential case using dfbetas
+dfbetasPlots(m1a,id.n=2)
+
+mtcars[rownames(mtcars)=='Fiat 128',]
+
+newd <- mtcars[!rownames(mtcars)%in%c('Fiat 128'),]
+m1c <- lm(mpg~cyl+wt,data=newd)
+summary(m1c)
+
+influenceIndexPlot(m1c,id=list(n=2))
+n=nrow(newd)
+plot(cooks.distance(m1c))
+abline(h=4/(n-p), lty=2)
+identify(1:n,cooks.distance(m1c), row.names(newd))
+dfbetasPlots(m1c,id.n=2)
