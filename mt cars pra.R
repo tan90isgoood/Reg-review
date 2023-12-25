@@ -53,3 +53,6 @@ s2=step(m1,k=log(nrow(Train))) #BIC
 
 m1a <- lm(mpg~cyl+wt,data=Train)
 summary(m1a)
+
+vif(m1)
+vif(m1a)
